@@ -60,6 +60,12 @@
             <button type="submit">Register</button>
         </form> --}}
 
+        @if (session('response'))
+    <div class="alert alert-{{ session('response')['status'] }}">
+        {{ session('response')['message'] }}
+    </div>
+@endif
+
 
         <div class="w-full max-w-md bg-white dark:bg-[#161615] rounded-lg shadow-[0px_0px_1px_0px_rgba(0,0,0,0.03),0px_1px_2px_0px_rgba(0,0,0,0.06)] p-6 lg:p-8 mb-6 transition-all duration-300 transform starting:translate-y-4 starting:opacity-0 translate-y-0 opacity-100">
             <div class="flex flex-col items-center mb-6">
@@ -72,7 +78,8 @@
                 <p class="text-[#706f6c] dark:text-[#A1A09A] text-sm text-center">Join our community and start your journey with us.</p>
             </div>
             
-            <form action="" class="space-y-4">
+            <form action="/register" method="POST" class="space-y-4">
+                @csrf
                 <div class="flex flex-col space-y-1">
                     <label for="name" class="text-sm font-medium text-[#1b1b18] dark:text-[#EDEDEC]">Name</label>
                     <input 
