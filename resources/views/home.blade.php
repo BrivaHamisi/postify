@@ -49,16 +49,6 @@
                 </nav>
             @endif
         </header>
-        {{-- <h1>Register</h1>
-        <form action="">
-            <label for="name">Name</label>
-            <input type="text" id="name" name="name" required>
-            <label for="email">Email</label>
-            <input type="email" id="email" name="email" required>
-            <label for="password">Password</label>
-            <input type="password" id="password" name="password" required>
-            <button type="submit">Register</button>
-        </form> --}}
 
         @if (session('response'))
     <div class="alert alert-{{ session('response')['status'] }}">
@@ -225,18 +215,6 @@
                     >
                 </div>
                 
-                {{-- <div class="flex flex-col space-y-1">
-                    <label for="email" class="text-sm font-medium text-[#1b1b18] dark:text-[#EDEDEC]">Email</label>
-                    <input 
-                        type="email" 
-                        id="email" 
-                        name="email" 
-                        required 
-                        class="px-4 py-2 border border-[#e3e3e0] dark:border-[#3E3E3A] rounded-sm bg-[#FDFDFC] dark:bg-[#0a0a0a] text-[#1b1b18] dark:text-[#EDEDEC] focus:outline-none focus:ring-1 focus:ring-[#f53003] dark:focus:ring-[#FF4433] transition-all"
-                        placeholder="your.email@example.com"
-                    >
-                </div> --}}
-                
                 <div class="flex flex-col space-y-1">
                     <label for="password" class="text-sm font-medium text-[#1b1b18] dark:text-[#EDEDEC]">Password</label>
                     <input 
@@ -249,19 +227,6 @@
                     >
                     <p class="text-xs text-[#706f6c] dark:text-[#A1A09A] mt-1">Password must be at least 8 characters long</p>
                 </div>
-                
-                {{-- <div class="flex items-center mt-4">
-                    <input 
-                        type="checkbox" 
-                        id="terms" 
-                        name="terms" 
-                        required 
-                        class="h-4 w-4 border border-[#e3e3e0] dark:border-[#3E3E3A] rounded accent-[#f53003] dark:accent-[#FF4433]"
-                    >
-                    <label for="terms" class="ml-2 text-sm text-[#706f6c] dark:text-[#A1A09A]">
-                        I agree to the <a href="#" class="text-[#f53003] dark:text-[#FF4433] hover:underline">Terms of Service</a> and <a href="#" class="text-[#f53003] dark:text-[#FF4433] hover:underline">Privacy Policy</a>
-                    </label>
-                </div> --}}
                 
                 <button 
                     type="submit" 
@@ -310,11 +275,6 @@
         </div>
 
         @endauth
-        
-
-
-        
-
         @if (Route::has('login'))
             <div class="h-14.5 hidden lg:block"></div>
         @endif
