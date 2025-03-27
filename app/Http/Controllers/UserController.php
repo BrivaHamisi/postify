@@ -51,4 +51,39 @@ class UserController extends Controller
 
         // return 'Hello from User Register Controller';
     }
+
+    public function logout(Request $request)
+    {
+        Auth::logout();
+        return redirect('/');
+    }
+
+    public function login(Request $request)
+    {
+        $incomingFields = $request->validate([
+            'loginname' => ['required'],
+            'loginpassword' => ['required']
+        ]);
+
+        if (Auth::attempt(['name' => $incomingFields['loginname'], 'password' => $incomingFields['loginpassword']])) {
+            // Authentication passed...
+            $request->session()->regenerate();
+            
+            $response = [
+                'status' => 'success',
+                'message' => 'User logged in successfully',
+                'user' => Auth::user()
+            ];
+
+            // Flash the response data to the session
+            $request->session()->flash('response', $response);
+
+            return redirect('/');
+        }
+
+        return response()->json([
+            'status' => 'error',
+            'message' => 'Login failed'
+        ], 401);
+    }
 }
