@@ -24,6 +24,10 @@ Route::get('/posts', [PostsController::class, 'showPosts'])->middleware('auth');
 Route::get('/posts/create', [PostsController::class, 'showPostForm'])->middleware('auth');
 Route::post('/create-post', [PostsController::class, 'createPost'])->middleware('auth');
 Route::delete('/posts/{id}', [PostsController::class, 'deletePost'])->middleware('auth');
+Route::get('/posts/{id}/edit', [PostsController::class, 'editPost'])->middleware('auth');
+Route::put('/update-post/{id}', [PostsController::class, 'updatePost'])->middleware('auth');
+
+
 
 
 // Route::get('/posts', [PostsController::class, 'posts']);

@@ -50,4 +50,29 @@ class PostsController extends Controller
         $post->delete();
         return redirect('/posts')->with('success', 'Post deleted successfully!');
     }
+
+    public function editPost($id)
+    {
+        $post = Post::findOrFail($id);
+        return view('components.posts.edit_post', ['post' => $post]);
+    }
+    public function updatePost(Request $request, $id)
+    {
+        $validatedData = $request->validate([
+            'title' => 'required|string|max:255',
+            'content' => 'required|string',
+        ]);
+
+        $post = Post::findOrFail($id);
+        
+        if ($post->user_id !== Auth::id()) {
+            return redirect('/posts')->with('error', 'Unauthorized action');
+        }
+
+        $post->title = strip_tags($validatedData['title']);
+        $post->content = strip_tags($validatedData['content']);
+        $post->save();
+
+        return redirect('/posts')->with('success', 'Post updated successfully!');
+    }
 }
