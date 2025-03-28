@@ -9,6 +9,14 @@ use Illuminate\Validation\Rule;
 
 class UserController extends Controller
 {
+    public function showRegister()
+    {
+        return view('signup');
+    }
+    public function showLogin()
+    {
+        return view('login');
+    }
     public function register(Request $request)
     {
         $incomingFields = $request->validate([
@@ -34,7 +42,7 @@ class UserController extends Controller
             // Flash the response data to the session
             $request->session()->flash('response', $response);
 
-            return redirect('/');
+            return redirect('/posts');
 
         } catch (\Exception $e) {
             return response()->json([
@@ -78,7 +86,7 @@ class UserController extends Controller
             // Flash the response data to the session
             $request->session()->flash('response', $response);
 
-            return redirect('/');
+            return redirect('/posts');
         }
 
         return response()->json([
