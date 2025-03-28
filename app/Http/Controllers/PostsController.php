@@ -2,50 +2,52 @@
 
 namespace App\Http\Controllers;
 
+use App\Models\Post;
 use Illuminate\Http\Request;
+use Illuminate\Support\Facades\Auth;
 
 class PostsController extends Controller
 {
     public function showPosts()
     {
-        return view('posts');
+        $posts = Post::with('user')->latest()->get();
+        return view('posts', ['posts' => $posts]);
     }
+
     public function showPostForm()
     {
         return view('components.posts.create_post');
     }
 
-    public function createPost()
+    public function createPost(Request $request)
     {
-        // // Validate the request data
-        // $request->validate([
-        //     'content' => 'required|string|max:255',
-        // ]);
+        $validatedData = $request->validate([
+            'title' => 'required|string|max:255',
+            'content' => 'required|string',
+        ]);
 
-        // // Create a new post
-        // $post = new Post();
-        // $post->content = $request->input('content');
-        // $post->user_id = auth()->id(); // Assuming you have user authentication set up
-        // $post->save();
+        $post = new Post();
+        $post->title = strip_tags($validatedData['title']);
+        $post->content = strip_tags($validatedData['content']);
+        $post->user_id = Auth::id();
+        $post->save();
 
         return redirect('/posts')->with('success', 'Post created successfully!');
     }
 
     public function deletePost($id)
     {
-        // Find the post by ID and delete it
-        // $post = Post::findOrFail($id);
-        // $post->delete();
+        if (!Auth::check()) {
+            return redirect('/login')->with('error', 'Please login to delete a post');
+        }
 
+        $post = Post::findOrFail($id);
+        
+        if ($post->user_id !== Auth::id()) {
+            return redirect('/posts')->with('error', 'Unauthorized action');
+        }
+        
+        $post->delete();
         return redirect('/posts')->with('success', 'Post deleted successfully!');
     }
-    public function editPost($id)
-    {
-        // Find the post by ID and return it for editing
-        // $post = Post::findOrFail($id);
-        // return view('edit_post', compact('post'));
-
-        return redirect('/posts')->with('success', 'Post edited successfully!');
-    }
-    
 }

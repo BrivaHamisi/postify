@@ -29,9 +29,8 @@
         @auth
         <!-- Post Form Card -->
         <div class="bg-white dark:bg-[#161615] rounded-xl shadow-[0_4px_15px_rgba(0,0,0,0.05)] p-6 transition-all duration-300 hover:shadow-[0_6px_20px_rgba(0,0,0,0.08)]">
-            <form action="/submit-post" method="POST" class="space-y-6">
+            <form action="/create-post" method="POST" class="space-y-6">
                 @csrf
-                
                 <!-- Icon and Title -->
                 <div class="flex items-center gap-4">
                     <div class="w-12 h-12 flex items-center justify-center bg-[#fff2f2] dark:bg-[#1D0002] rounded-full">
