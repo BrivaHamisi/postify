@@ -10,11 +10,6 @@ use Illuminate\Support\Facades\Auth;
 
 class PostsController extends Controller
 {
-    // public function __construct()
-    // {
-    //     $this->middleware('auth')->except(['showPosts']);
-    // }
-
     public function showPosts()
     {
         $posts = Post::with(['user', 'likes', 'comments.user'])->latest()->paginate(10);

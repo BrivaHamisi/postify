@@ -11,14 +11,14 @@ Route::get('/', function () {
 
 //Register Route
 Route::get('/register', [UserController::class, 'showRegister']);
-Route::post('/register', [UserController::class, 'register']);
+Route::post('/register', [UserController::class, 'register'])->name('register');
 
 //Login Route
 Route::get('/login', [UserController::class, 'showLogin']);
-Route::post('/login', [UserController::class, 'login']);
+Route::post('/login', [UserController::class, 'login'])->name('login');
 
 //Logout Route
-Route::post('/logout', [UserController::class, 'logout']);
+Route::post('/logout', [UserController::class, 'logout'])->name('logout');
 
 //Posts Route
 Route::get('/posts', [PostsController::class, 'showPosts'])->middleware('auth');

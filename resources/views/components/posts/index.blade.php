@@ -11,7 +11,6 @@
                     <span class="hidden sm:inline">Create Post</span>
                 </a>
             </div>
-
             @auth
             <!-- Welcome Card -->
             <div class="bg-white dark:bg-[#1A1A19] rounded-2xl shadow-lg p-6 transition-all duration-300 hover:shadow-xl border border-gray-100 dark:border-[#2A2A28]">
@@ -36,7 +35,6 @@
                 </div>
             </div>
             @endauth
-
             <!-- Posts Section -->
             @forelse($posts as $post)
             <div class="bg-white dark:bg-[#1A1A19] rounded-2xl shadow-lg overflow-hidden transition-all duration-300 hover:shadow-xl border border-gray-100 dark:border-[#2A2A28]">
