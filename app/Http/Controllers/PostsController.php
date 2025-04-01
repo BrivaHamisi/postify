@@ -153,4 +153,33 @@ class PostsController extends Controller
         
     }
 
+    public function updateComment(Request $request, $id)
+    {
+        $comment = Comment::findOrFail($id);
+
+        // Check if the authenticated user owns the comment
+        if (Auth::id() !== $comment->user_id) {
+            return redirect()->back()->with('error', 'You can only edit your own comments.');
+        }
+
+        $request->validate(['content' => 'required|string']);
+        $comment->update(['content' => $request->content]);
+
+        return redirect()->back()->with('success', 'Comment updated successfully.');
+    }
+
+    public function destroyComment($id)
+    {
+        $comment = Comment::findOrFail($id);
+
+        // Check if the authenticated user owns the comment
+        if (Auth::id() !== $comment->user_id) {
+            return redirect()->back()->with('error', 'You can only delete your own comments.');
+        }
+
+        $comment->delete();
+
+        return redirect()->back()->with('success', 'Comment deleted successfully.');
+    }
+
 }

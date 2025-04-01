@@ -2,6 +2,7 @@
 
 use App\Http\Controllers\PostsController;
 use App\Http\Controllers\UserController;
+use App\Http\Controllers\MpesaController;
 use Faker\Guesser\Name;
 use Illuminate\Support\Facades\Route;
 
@@ -31,7 +32,21 @@ Route::put('/update-post/{id}', [PostsController::class, 'updatePost'])->middlew
 Route::post('/posts/{id}/like', [PostsController::class, 'likePost'])->name('posts.like')->middleware('auth');
 Route::post('/comments/{id}/like', [PostsController::class, 'likeComment'])->name('comments.like');
 Route::post('/posts/{id}/comment', [PostsController::class, 'addComment'])->name('posts.comment')->middleware('auth');
-// Route::delete('/posts/{id}/comment/{commentId}', [PostsController::class, 'deleteComment'])->middleware('auth');
-// Route::get('/posts/{id}/comments', [PostsController::class, 'showComments'])->middleware('auth');
-// Route::get('/posts/{id}/likes', [PostsController::class, 'showLikes'])->middleware('auth');
-// Route::post('/posts/{id}/unlike', [PostsController::class, 'unlikePost'])->middleware('auth');
+Route::put('/comments/{id}', [PostsController::class, 'updateComment'])->name('comments.update');
+Route::delete('/comments/{id}', [PostsController::class, 'destroyComment'])->name('comments.destroy');
+
+//Mpesa Test .env
+Route::get('/test-env', function () {
+    return [
+        'consumer_key' => env('MPESA_CONSUMER_KEY'),
+        'shortcode' => env('MPESA_SHORTCODE'),
+        'callback_url' => env('MPESA_CALLBACK_URL'),
+    ];
+});
+
+
+Route::post('/mpesa/donate', [MpesaController::class, 'initiateDonation'])->name('mpesa.donate');
+Route::post('/mpesa/callback', [MpesaController::class, 'callback'])->name('mpesa.callback');
+
+// routes/web.php
+Route::get('/donation/status/{checkoutRequestId}', [MpesaController::class, 'checkStatus'])->name('donation.status');
