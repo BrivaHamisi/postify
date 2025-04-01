@@ -12,7 +12,7 @@ class PostsController extends Controller
 {
     public function showPosts()
     {
-        $posts = Post::with(['user', 'likes', 'comments.user'])->latest()->paginate(10);
+        $posts = Post::with(['user', 'likes', 'comments.user', 'comments.likes','comments.replies'])->latest()->paginate(10);
 
         // Fetch top posts by engagement (likes + comments)
         $topPosts = Post::with(['user', 'likes', 'comments'])
@@ -110,6 +110,27 @@ class PostsController extends Controller
         return redirect()->back()->with('success', $message);
 
     }
+    public function likeComment($id){
+        if (!Auth::check()) {
+            return redirect('/login')->with('error', 'Please login to like a comment');
+        }
+
+        $comment = Comment::findOrFail($id);
+        $userId = Auth::id();
+
+        // Check if the user already liked the comment
+        $existingLike = $comment->likes()->where('user_id', $userId)->first();
+
+        if ($existingLike) {
+            // Unlike: Delete the like
+            $existingLike->delete();
+        } else {
+            // Like: Create a new like
+            $comment->likes()->create(['user_id' => $userId]);
+        }
+
+        return redirect()->back()->with('success');
+    }
     public function addComment(Request $request, $id)
     {
         if (!Auth::check()) {
@@ -125,9 +146,11 @@ class PostsController extends Controller
         Comment::create([
             'post_id' => $id,
             'user_id' => Auth::id(),
-            'content' => strip_tags($request->input('content')),
+            'parent_id' => $request->parent_id,
+            'content' => strip_tags($request->content),
         ]);
         return redirect()->back()->with('success', 'Comment added successfully!');
         
     }
+
 }
