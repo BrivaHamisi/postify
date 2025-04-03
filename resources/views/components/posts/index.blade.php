@@ -79,9 +79,9 @@
                                             <path stroke-linecap="round" stroke-linejoin="round" d="M2.25 6.75c0 8.284 6.716 15 15 15h2.25a2.25 2.25 0 002.25-2.25v-1.372c0-.516-.351-.966-.852-1.091l-4.423-1.106c-.44-.11-.902.055-1.173.417l-.97 1.293c-.282.376-.769.542-1.21.38a12.035 12.035 0 01-7.143-7.143c-.162-.441.004-.928.38-1.21l1.293-.97c.363-.271.527-.734.417-1.173L6.963 3.102a1.125 1.125 0 00-1.091-.852H4.5A2.25 2.25 0 002.25 4.5v2.25z" />
                                         </svg>
                                     </span>
-                                    <input type="text" name="phone" id="phone" placeholder="2547XXXXXXXX"
+                                    <input type="text" name="phone" id="phone" placeholder="254XXXXXXXXX"
                                            class="w-full py-3 pl-10 pr-4 bg-[#F9FAFB] dark:bg-[#232322] text-gray-900 dark:text-[#F5F5F4] rounded-lg border border-gray-200 dark:border-[#333331] focus:outline-none focus:ring-2 focus:ring-[#F53003] dark:focus:ring-[#FF4433] transition-all duration-200 shadow-sm hover:shadow-md"
-                                           required pattern="2547[0-9]{8}" title="Enter a valid Kenyan phone number starting with 2547">
+                                           required pattern="254[71][0-9]{8}" title="Enter a valid Kenyan phone number starting with 254">
                                 </div>
                             </div>
                             <div>
@@ -271,6 +271,7 @@
         document.getElementById('donate-form').addEventListener('submit', function(e) {
             e.preventDefault();
             document.getElementById('payment-status').classList.remove('hidden');
+            document.getElementById('payment-status').innerHTML = '<p class="text-sm text-gray-700 dark:text-gray-200">Processing payment...</p>';
         
             fetch(this.action, {
                 method: 'POST',
@@ -283,26 +284,10 @@
             .then(response => response.json())
             .then(data => {
                 if (data.success) {
-                    const checkoutRequestId = data.checkout_request_id; // Add this to response
-                    document.getElementById('payment-status').innerHTML = '<p class="text-sm text-gray-700 dark:text-gray-200">Payment request sent. Please confirm on your phone...</p>';
-                    
-                    // Poll for status
-                    const checkStatus = setInterval(() => {
-                        fetch(`/donation/status/${checkoutRequestId}`)
-                        .then(res => res.json())
-                        .then(statusData => {
-                            if (statusData.status === 'completed') {
-                                clearInterval(checkStatus);
-                                document.getElementById('payment-status').innerHTML = '<p class="text-sm text-green-700 dark:text-green-200">Thank you for your donation!</p>';
-                                setTimeout(() => document.getElementById('donate-modal').classList.add('hidden'), 2000);
-                            } else if (statusData.status === 'failed') {
-                                clearInterval(checkStatus);
-                                document.getElementById('payment-status').innerHTML = '<p class="text-sm text-red-700 dark:text-red-200">Payment failed. Please try again.</p>';
-                            }
-                        });
-                    }, 2000); // Check every 2 seconds
+                    document.getElementById('payment-status').innerHTML = '<p class="text-sm text-green-700 dark:text-green-200">' + data.message + '</p>';
+                    setTimeout(() => document.getElementById('donate-modal').classList.add('hidden'), 2000);
                 } else {
-                    document.getElementById('payment-status').innerHTML = '<p class="text-sm text-red-700 dark:text-red-200">Payment failed: ' + (data.message || 'Unknown error') + '</p>';
+                    document.getElementById('payment-status').innerHTML = '<p class="text-sm text-red-700 dark:text-red-200">' + data.message + '</p>';
                 }
             })
             .catch(error => {
