@@ -47,7 +47,6 @@ class MpesaController extends Controller
         Log::info('Initiate Donation Request:', $request->all());
 
         $request->validate([
-            // 'phone' => 'required|regex:/^254[0-9]{8}$/',
             'phone' => 'required|regex:/^254[71][0-9]{8}$/',
             'amount' => 'required|numeric|min:1',
         ]);
