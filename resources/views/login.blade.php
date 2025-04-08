@@ -38,12 +38,7 @@
                 <p class="text-xs text-[#706f6c] dark:text-[#A1A09A] mt-1">Password must be at least 8 characters long</p>
             </div>
             
-            <button 
-                type="submit" 
-                class="w-full py-3 mt-4 bg-[#1b1b18] dark:bg-[#EDEDEC] text-white dark:text-[#1C1C1A] rounded-sm font-medium hover:bg-black dark:hover:bg-white transition-all shadow-[0px_0px_1px_0px_rgba(0,0,0,0.03),0px_1px_2px_0px_rgba(0,0,0,0.06)]"
-            >
-                Login to your Account
-            </button>
+            <button type="submit" class="w-full py-3 mt-4 ...">Login to your Account</button>
         </form>
 
         <div class="mt-6 text-center">
